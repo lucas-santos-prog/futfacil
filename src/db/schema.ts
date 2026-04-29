@@ -1,6 +1,18 @@
-import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import { relations, sql } from "drizzle-orm";
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+  index,
+  uuid,
+  check,
+  integer,
+  numeric,
+  primaryKey,
+} from "drizzle-orm/pg-core";
 
+// User Schema
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
@@ -14,6 +26,7 @@ export const user = pgTable("user", {
     .notNull(),
 });
 
+// Session Schema
 export const session = pgTable(
   "session",
   {
@@ -33,6 +46,7 @@ export const session = pgTable(
   (table) => [index("session_userId_idx").on(table.userId)],
 );
 
+// Account Schema
 export const account = pgTable(
   "account",
   {
@@ -57,6 +71,7 @@ export const account = pgTable(
   (table) => [index("account_userId_idx").on(table.userId)],
 );
 
+// Verification Schema
 export const verification = pgTable(
   "verification",
   {
@@ -73,11 +88,13 @@ export const verification = pgTable(
   (table) => [index("verification_identifier_idx").on(table.identifier)],
 );
 
+// UserRelations Schema
 export const userRelations = relations(user, ({ many }) => ({
   sessions: many(session),
   accounts: many(account),
 }));
 
+// SessionRelations Schema
 export const sessionRelations = relations(session, ({ one }) => ({
   user: one(user, {
     fields: [session.userId],
@@ -85,9 +102,144 @@ export const sessionRelations = relations(session, ({ one }) => ({
   }),
 }));
 
+// AccountRelations Schema
 export const accountRelations = relations(account, ({ one }) => ({
   user: one(user, {
     fields: [account.userId],
     references: [user.id],
   }),
 }));
+
+// Events Schema
+export const eventos = pgTable("events", {
+  id: uuid("id")
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
+
+  name: text("name").notNull(),
+
+  price: numeric("price", { precision: 10, scale: 2 }).notNull(),
+
+  maxTeams: integer("max_teams").notNull(),
+
+  startDate: timestamp("start_date").notNull(),
+  endDate: timestamp("end_date").notNull(),
+
+  eventTypeId: uuid("event_type_id")
+    .notNull()
+    .references(() => eventType.id),
+
+  tournamentEventId: uuid("tournament_event_id")
+    .notNull()
+    .references(() => tournamentEvent.id),
+});
+
+// Arena network Schema
+export const arenaNetwork = pgTable("arena_networks", {
+  id: uuid("id")
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
+  name: text("name").notNull(),
+  oficialName: text("oficial_name").notNull(),
+});
+
+// Arenas Schema - checked
+export const arena = pgTable("arenas", {
+  id: uuid("id")
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
+  name: text("name").notNull(),
+  capacity: integer("capacity").notNull(),
+  pricePerHour: numeric("pricePerHour", { precision: 10, scale: 2 }).notNull(),
+  emphasisArena: boolean("emphasis_arena").default(false),
+
+  addressId: uuid("address_id")
+    .notNull()
+    .references(() => address.id, { onDelete: "cascade" }),
+});
+
+// Adress Schema - checked
+export const address = pgTable("addresses", {
+  id: uuid("id")
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
+  street: text("street").notNull(),
+  number: text("number").notNull(),
+  community: text("community").notNull(),
+  state: text("state").notNull(),
+  country: text("country").notNull(),
+
+  arenaNetworkId: uuid("arena_network_id").references(() => arenaNetwork.id),
+});
+
+// EventType Schema - checked
+export const eventType = pgTable("event_types", {
+  id: uuid("id")
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
+  name: text("name").notNull(),
+});
+
+// TournementEvent Schema -
+export const tournamentEvent = pgTable("tournament_events", {
+  id: uuid("id")
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
+  name: text("name").notNull(),
+});
+
+// Team Schema - checked
+export const team = pgTable("teams", {
+  id: uuid("id")
+    .default(sql`gen_random_uuid()`)
+    .primaryKey(),
+  name: text("name").notNull(),
+  phone: text("phone"),
+  addressId: uuid("address_id").references(() => address.id),
+});
+
+// relations
+
+// EventArena Schema - checked
+export const eventArena = pgTable(
+  "event_arenas",
+  {
+    id: uuid("id")
+      .default(sql`gen_random_uuid()`)
+      .primaryKey(),
+
+    eventId: uuid("event_id")
+      .notNull()
+      .references(() => eventos.id, { onDelete: "cascade" }),
+
+    arenaId: uuid("arena_id")
+      .notNull()
+      .references(() => arena.id, { onDelete: "cascade" }),
+  },
+  (table) => [
+    index("event_arena_event_idx").on(table.eventId),
+    index("event_arena_arena_idx").on(table.arenaId),
+  ],
+);
+
+// EventTeam Relation -
+export const eventTeam = pgTable(
+  "event_teams",
+  {
+    id: uuid("id")
+      .default(sql`gen_random_uuid()`)
+      .primaryKey(),
+
+    eventId: uuid("event_id")
+      .notNull()
+      .references(() => eventos.id, { onDelete: "cascade" }),
+
+    teamId: uuid("team_id")
+      .notNull()
+      .references(() => team.id, { onDelete: "cascade" }),
+  },
+  (table) => [
+    index("event_team_event_idx").on(table.eventId),
+    index("event_team_team_idx").on(table.teamId),
+  ],
+);

@@ -79,6 +79,79 @@ export const featuredArenas = [
   },
 ];
 
+export type arenasType = {
+  id: string;
+  name: string;
+  address: {
+    id: string;
+    street: string;
+    number: string;
+    community: string;
+    state: string;
+    country: string;
+  };
+  capacity: string;
+  image: string;
+  pricePerHour: string;
+  emphasisArena: boolean;
+};
+export const arenas = [
+  {
+    id: "1",
+    name: "Arena Central",
+    location: "Centro, São Paulo - SP",
+    capacity: "10 jogadores",
+    image: banner1,
+    pricePerHour: "R$ 150",
+    emphasisArena: true,
+  },
+  {
+    id: "2",
+    name: "Arena Sports Club",
+    location: "Zona Sul, São Paulo - SP",
+    capacity: "14 jogadores",
+    image: banner2,
+    pricePerHour: "R$ 200",
+    emphasisArena: false,
+  },
+  {
+    id: "3",
+    name: "Arena Prime",
+    location: "Zona Oeste, São Paulo - SP",
+    capacity: "12 jogadores",
+    image: banner3,
+    pricePerHour: "R$ 180",
+    emphasisArena: false,
+  },
+  {
+    id: "4",
+    name: "Arena Champions",
+    location: "Zona Norte, São Paulo - SP",
+    capacity: "10 jogadores",
+    image: banner1,
+    pricePerHour: "R$ 160",
+    emphasisArena: false,
+  },
+  {
+    id: "5",
+    name: "Arena Elite",
+    location: "Zona Leste, São Paulo - SP",
+    capacity: "16 jogadores",
+    image: banner2,
+    pricePerHour: "R$ 220",
+    emphasisArena: true,
+  },
+  {
+    id: "6",
+    name: "Arena Express",
+    location: "Centro, São Paulo - SP",
+    capacity: "8 jogadores",
+    image: banner3,
+    pricePerHour: "R$ 120",
+    emphasisArena: true,
+  },
+];
+
 // Event Entity
 
 export enum eventTypeEnum {
@@ -131,5 +204,41 @@ export const featuredEvents = [
     type: eventTypeEnum.desafio,
     teamsRegistered: 1,
     maxTeams: 2,
+  },
+];
+
+// Teams Entity
+export type teamType = {
+  id: string;
+  name: string;
+  city: string;
+  members: number;
+  image: string;
+  category: string;
+};
+export const featuredTeams = [
+  {
+    id: "1",
+    name: "FC Vikings",
+    city: "São Paulo, SP",
+    members: 15,
+    image: banner1,
+    category: "Amador",
+  },
+  {
+    id: "2",
+    name: "Real União",
+    city: "São Paulo, SP",
+    members: 12,
+    image: banner2,
+    category: "Amador",
+  },
+  {
+    id: "3",
+    name: "Atlético Raio",
+    city: "Campinas, SP",
+    members: 18,
+    image: banner3,
+    category: "Semi-profissional",
   },
 ];

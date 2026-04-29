@@ -7,16 +7,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { navItems } from "./Header";
 
 export default function MobileNavigationBar() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="md:hidden">
-          <Menu className="h-5 w-5" />
-        </Button>
+      <DropdownMenuTrigger>
+        <Menu className="h-5 w-5 md:hidden" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-52 bg-popover">
         {navItems.map(({ to, label, icon: Icon }) => (

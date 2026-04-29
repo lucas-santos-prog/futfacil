@@ -8,6 +8,34 @@
       "when": 1777159324172,
       "tag": "0000_shocking_randall",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1777246896831,
+      "tag": "0001_vengeful_diamondback",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1777318992046,
+      "tag": "0002_spotty_vindicator",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1777402098006,
+      "tag": "0003_daily_harpoon",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1777402215121,
+      "tag": "0004_blue_karma",
+      "breakpoints": true
     }
   ]
 }

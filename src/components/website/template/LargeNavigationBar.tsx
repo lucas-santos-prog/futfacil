@@ -15,11 +15,12 @@ export default function LargeNavigationBar() {
         <Button
           key={to}
           variant={isActive(to) ? "secondary" : "ghost"}
+          className="p-5"
           size="sm"
           asChild
         >
-          <Link href={to}>
-            <Icon className="mr-2 h-4 w-4" />
+          <Link href={to} className="flex items-center gap-2">
+            <Icon className="h-4 w-4" />
             {label}
           </Link>
         </Button>

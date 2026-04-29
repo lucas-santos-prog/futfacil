@@ -61,7 +61,7 @@ export default function EventCard({
                 fill
                 src={image}
                 alt={name}
-                className="h-full w-full object-cover"
+                className="rounded-t-lg h-full w-full object-cover"
               />
             </div>
             <div className="flex flex-1 flex-col justify-center p-3">
@@ -91,7 +91,12 @@ export default function EventCard({
   return (
     <Card className="overflow-hidden transition-all hover:shadow-lg hover:shadow-primary/10">
       <div className="relative aspect-video w-full overflow-hidden">
-        <img src={image} alt={name} className="h-full w-full object-cover" />
+        <Image
+          fill
+          src={image}
+          alt={name}
+          className="rounded-t-lg h-full w-full object-cover"
+        />
         <Badge className={`absolute top-3 left-3 ${typeColors[type]}`}>
           {type === "desafio" ? (
             <Swords className="mr-1 h-3 w-3" />
